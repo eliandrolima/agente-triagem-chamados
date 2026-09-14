@@ -1,6 +1,7 @@
 """Abstração mínima para alternar entre Gemini e GPT."""
 
 import os
+from collections.abc import Callable
 from typing import Protocol
 
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -25,6 +26,19 @@ class ConfiguracaoLLMError(RuntimeError):
 
 class AnalisadorChamado(Protocol):
     def analisar(self, chamado: ChamadoEntrada) -> AnaliseLLM: ...
+
+
+class AnalisadorPreguicoso:
+    """Adia a configuração externa até o node que realmente utiliza o LLM."""
+
+    def __init__(self, fabrica: Callable[[], AnalisadorChamado]) -> None:
+        self._fabrica = fabrica
+        self._analisador: AnalisadorChamado | None = None
+
+    def analisar(self, chamado: ChamadoEntrada) -> AnaliseLLM:
+        if self._analisador is None:
+            self._analisador = self._fabrica()
+        return self._analisador.analisar(chamado)
 
 
 class AnalisadorComLLM:
@@ -57,4 +71,3 @@ class AnalisadorComLLM:
             [SystemMessage(content=INSTRUCAO_SISTEMA), HumanMessage(content=conteudo)]
         )
         return AnaliseLLM.model_validate(resultado)
-

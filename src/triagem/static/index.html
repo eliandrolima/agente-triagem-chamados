@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Demonstração de triagem inteligente de chamados técnicos">
+    <title>Triagem Inteligente de Chamados</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main class="layout">
+      <header class="hero">
+        <span class="eyebrow">SCTEC · IA para Desenvolvedores</span>
+        <h1>Triagem inteligente<br>de chamados técnicos</h1>
+        <p>
+          Classifique incidentes de software, infraestrutura e suporte com um fluxo
+          controlado por LangGraph.
+        </p>
+      </header>
+
+      <section class="workspace" aria-label="Área de triagem">
+        <form id="triage-form" class="panel form-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="step">01</span>
+              <h2>Descreva o chamado</h2>
+            </div>
+            <button id="fill-example" class="text-button" type="button">Usar exemplo</button>
+          </div>
+
+          <label for="title">Título</label>
+          <input id="title" name="titulo" minlength="5" maxlength="160" required
+                 placeholder="Ex.: API de pagamentos indisponível">
+
+          <label for="description">Descrição</label>
+          <textarea id="description" name="descricao" minlength="10" maxlength="4000"
+                    rows="7" required
+                    placeholder="Informe o impacto, os sintomas e quando o problema começou."></textarea>
+
+          <div class="field-grid">
+            <div>
+              <label for="service">Serviço <span>opcional</span></label>
+              <input id="service" name="servico" maxlength="100" placeholder="pagamentos">
+            </div>
+            <div>
+              <label for="environment">Ambiente <span>opcional</span></label>
+              <select id="environment" name="ambiente">
+                <option value="">Não informado</option>
+                <option value="desenvolvimento">Desenvolvimento</option>
+                <option value="homologacao">Homologação</option>
+                <option value="producao">Produção</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="submit-button" class="primary-button" type="submit">
+            <span>Analisar chamado</span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <p id="form-message" class="message" role="status" aria-live="polite"></p>
+        </form>
+
+        <section id="result-panel" class="panel result-panel empty" aria-live="polite">
+          <div class="panel-heading">
+            <div>
+              <span class="step">02</span>
+              <h2>Resultado da triagem</h2>
+            </div>
+            <span id="severity-badge" class="badge" hidden></span>
+          </div>
+
+          <div id="empty-state" class="empty-state">
+            <div class="signal" aria-hidden="true"><span></span><span></span><span></span></div>
+            <p>O resultado estruturado aparecerá aqui após a análise.</p>
+          </div>
+
+          <div id="result-content" class="result-content" hidden>
+            <div class="category-line">
+              <span>Categoria</span>
+              <strong id="category"></strong>
+            </div>
+            <div class="result-block">
+              <span>Resumo</span>
+              <p id="summary"></p>
+            </div>
+            <div class="result-block action-block">
+              <span>Ação sugerida</span>
+              <p id="action"></p>
+            </div>
+            <dl class="metadata">
+              <div><dt>Revisão humana</dt><dd id="human-review"></dd></div>
+              <div><dt>Rota</dt><dd id="route"></dd></div>
+              <div><dt>Fonte</dt><dd id="source"></dd></div>
+              <div><dt>Execução</dt><dd id="execution-id"></dd></div>
+            </dl>
+          </div>
+        </section>
+      </section>
+
+      <footer>
+        <span>FastAPI</span><span>LangGraph</span><span>Gemini / GPT</span>
+      </footer>
+    </main>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
+

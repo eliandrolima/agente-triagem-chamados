@@ -2,13 +2,21 @@
 
 import logging
 from collections.abc import Callable
+from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from triagem import __version__
 from triagem.graph import executar_triagem
-from triagem.llm import AnalisadorChamado, AnalisadorComLLM, ConfiguracaoLLMError
+from triagem.llm import (
+    AnalisadorChamado,
+    AnalisadorComLLM,
+    AnalisadorPreguicoso,
+    ConfiguracaoLLMError,
+)
 from triagem.models import ChamadoEntrada, SaudeResposta, TriagemResposta
 
 app = FastAPI(
@@ -16,6 +24,8 @@ app = FastAPI(
     description="Projeto avaliativo do curso IA para Desenvolvedores do SCTEC.",
     version=__version__,
 )
+
+PASTA_STATIC = Path(__file__).parent / "static"
 
 
 @app.get("/api/health", response_model=SaudeResposta, tags=["sistema"])
@@ -27,6 +37,13 @@ def verificar_saude() -> SaudeResposta:
         aplicacao="agente-triagem-chamados",
         versao=__version__,
     )
+
+
+@app.get("/", include_in_schema=False)
+def pagina_inicial() -> FileResponse:
+    """Entrega a interface web da demonstração."""
+
+    return FileResponse(PASTA_STATIC / "index.html")
 
 
 def obter_fabrica_analisador() -> Callable[[], AnalisadorChamado]:
@@ -45,7 +62,7 @@ def realizar_triagem(
     """Executa o fluxo completo de triagem do chamado."""
 
     try:
-        analisador = fabrica_analisador()
+        analisador = AnalisadorPreguicoso(fabrica_analisador)
         return executar_triagem(chamado, analisador)
     except ConfiguracaoLLMError as erro:
         raise HTTPException(
@@ -61,3 +78,6 @@ def realizar_triagem(
                 "mensagem": "Não foi possível concluir a triagem. Tente novamente.",
             },
         ) from erro
+
+
+app.mount("/static", StaticFiles(directory=PASTA_STATIC), name="static")
