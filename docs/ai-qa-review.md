@@ -44,3 +44,9 @@ All checks passed!
 O alerta de depreciação emitido internamente pelo `TestClient` não representa falha do
 código do projeto e será acompanhado pelas atualizações das dependências.
 
+## Verificação multiplataforma
+
+Na primeira execução do GitHub Actions, o Linux não reconheceu `tests` como pacote ao
+importar `tests.fakes`, embora a suíte passasse no Windows. A correção adotada foi adicionar
+`tests/__init__.py`. Essa alteração preserva os testes e torna o comportamento consistente
+nos dois ambientes.
