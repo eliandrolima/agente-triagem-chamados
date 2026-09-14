@@ -1,0 +1,27 @@
+{
+  "software": {
+    "titulo": "Falha em aplicação",
+    "passos": [
+      "Confirmar a mensagem de erro e o horário da ocorrência.",
+      "Verificar os logs recentes da aplicação.",
+      "Comparar a falha com alterações publicadas recentemente."
+    ]
+  },
+  "infraestrutura": {
+    "titulo": "Indisponibilidade de infraestrutura",
+    "passos": [
+      "Confirmar o ambiente e os serviços afetados.",
+      "Verificar conectividade, utilização de recursos e alertas ativos.",
+      "Escalar imediatamente quando houver impacto em produção."
+    ]
+  },
+  "suporte": {
+    "titulo": "Atendimento de suporte",
+    "passos": [
+      "Confirmar usuário, equipamento e serviço afetado.",
+      "Reproduzir o problema quando possível.",
+      "Registrar a solução aplicada ou encaminhar para a equipe responsável."
+    ]
+  }
+}
+
