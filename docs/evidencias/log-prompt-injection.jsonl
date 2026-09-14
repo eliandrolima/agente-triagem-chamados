@@ -1,0 +1,3 @@
+{"execution_id":"c27f1fc1-2fac-430e-bdb3-2c9ab9d803bd","evento":"node_executado","node":"validar_seguranca","injection_detectada":true}
+{"execution_id":"c27f1fc1-2fac-430e-bdb3-2c9ab9d803bd","evento":"decisao_roteamento","destino":"bloquear_entrada"}
+{"execution_id":"c27f1fc1-2fac-430e-bdb3-2c9ab9d803bd","evento":"node_executado","node":"bloquear_entrada"}

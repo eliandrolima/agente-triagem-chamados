@@ -64,6 +64,29 @@ def test_api_rejeita_entrada_invalida() -> None:
     assert resposta.status_code == 422
 
 
+def test_api_informa_quando_llm_nao_esta_configurado() -> None:
+    from triagem.api import obter_fabrica_analisador
+    from triagem.llm import ConfiguracaoLLMError
+
+    def fabrica_sem_configuracao():
+        raise ConfiguracaoLLMError("Configure LLM_MODEL no arquivo .env.")
+
+    app.dependency_overrides[obter_fabrica_analisador] = lambda: fabrica_sem_configuracao
+    try:
+        resposta = client.post(
+            "/api/tickets/triage",
+            json={
+                "titulo": "Aplicação com lentidão",
+                "descricao": "A aplicação está lenta para todos os usuários desde as 10h.",
+            },
+        )
+    finally:
+        app.dependency_overrides.clear()
+
+    assert resposta.status_code == 503
+    assert resposta.json()["detail"]["codigo"] == "llm_nao_configurado"
+
+
 def test_api_bloqueia_prompt_injection_sem_exigir_chave_externa() -> None:
     resposta = client.post(
         "/api/tickets/triage",
