@@ -1,9 +1,15 @@
 """Ponto de entrada HTTP da aplicação."""
 
-from fastapi import FastAPI
+import logging
+from collections.abc import Callable
+from typing import Annotated
+
+from fastapi import Depends, FastAPI, HTTPException, status
 
 from triagem import __version__
-from triagem.models import SaudeResposta
+from triagem.graph import executar_triagem
+from triagem.llm import AnalisadorChamado, AnalisadorComLLM, ConfiguracaoLLMError
+from triagem.models import ChamadoEntrada, SaudeResposta, TriagemResposta
 
 app = FastAPI(
     title="Agente de Triagem de Chamados Técnicos",
@@ -22,3 +28,36 @@ def verificar_saude() -> SaudeResposta:
         versao=__version__,
     )
 
+
+def obter_fabrica_analisador() -> Callable[[], AnalisadorChamado]:
+    """Fornece a fábrica do analisador sem acessar segredos antes da validação."""
+
+    return AnalisadorComLLM
+
+
+@app.post("/api/tickets/triage", response_model=TriagemResposta, tags=["triagem"])
+def realizar_triagem(
+    chamado: ChamadoEntrada,
+    fabrica_analisador: Annotated[
+        Callable[[], AnalisadorChamado], Depends(obter_fabrica_analisador)
+    ],
+) -> TriagemResposta:
+    """Executa o fluxo completo de triagem do chamado."""
+
+    try:
+        analisador = fabrica_analisador()
+        return executar_triagem(chamado, analisador)
+    except ConfiguracaoLLMError as erro:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={"codigo": "llm_nao_configurado", "mensagem": str(erro)},
+        ) from erro
+    except Exception as erro:
+        logging.getLogger("triagem").exception("Falha controlada durante a triagem")
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail={
+                "codigo": "falha_na_triagem",
+                "mensagem": "Não foi possível concluir a triagem. Tente novamente.",
+            },
+        ) from erro
