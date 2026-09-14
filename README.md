@@ -1,6 +1,10 @@
 # Agente de Triagem de Chamados Técnicos
 
+[![Qualidade](https://github.com/eliandrolima/agente-triagem-chamados/actions/workflows/ci.yml/badge.svg)](https://github.com/eliandrolima/agente-triagem-chamados/actions/workflows/ci.yml)
+
 Projeto avaliativo de recuperação do curso **IA para Desenvolvedores - SCTEC**.
+
+Repositório: https://github.com/eliandrolima/agente-triagem-chamados
 
 ## Sobre o projeto
 
@@ -174,6 +178,7 @@ coberto por testes e pode ser reproduzido pela interface.
 
 - [Revisão de QA com IA](docs/ai-qa-review.md)
 - [Refinamento de comportamento](docs/behavior-refinement.md)
+- [Execução do pipeline de CI](docs/evidencias/ci.md)
 - evidências visuais finais serão armazenadas em `docs/evidencias/`.
 
 ## Observabilidade
@@ -199,4 +204,3 @@ Isso permite reconstruir o caminho sem adicionar uma plataforma externa.
 ## Vídeo de demonstração
 
 Link do vídeo não listado no YouTube: **adicionar antes da entrega**.
-
