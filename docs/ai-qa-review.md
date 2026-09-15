@@ -42,7 +42,7 @@ All checks passed!
 ```
 
 O alerta de depreciação emitido internamente pelo `TestClient` não representa falha do
-código do projeto e será acompanhado pelas atualizações das dependências.
+código do projeto e foi filtrado na configuração do pytest.
 
 ## Verificação multiplataforma
 

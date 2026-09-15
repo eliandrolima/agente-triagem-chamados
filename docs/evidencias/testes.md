@@ -13,11 +13,10 @@ ruff check .
 
 ```text
 ............                                                             [100%]
-12 passed, 1 warning in 5.75s
+12 passed
 
 All checks passed!
 ```
 
-O aviso é originado no `TestClient` do Starlette por uma API de compatibilidade do AnyIO.
-Ele não altera o resultado dos testes nem indica falha no código da aplicação.
-
+Um aviso de depreciação originado internamente no `TestClient` do Starlette foi filtrado
+na configuração do pytest. Ele não se refere ao código da aplicação.

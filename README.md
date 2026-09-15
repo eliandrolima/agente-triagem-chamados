@@ -94,7 +94,7 @@ O provedor é escolhido somente por variáveis de ambiente:
 | Gemini | `google` | `GOOGLE_API_KEY` |
 | OpenAI | `openai` | `OPENAI_API_KEY` |
 
-O exemplo usa o modelo estável `gemini-2.5-flash`. Outro modelo compatível pode ser
+O exemplo usa o modelo estável `gemini-3.6-flash`. Outro modelo compatível pode ser
 informado em `LLM_MODEL` sem alterar o código.
 
 ## Instalação
@@ -179,6 +179,7 @@ coberto por testes e pode ser reproduzido pela interface.
 - [Revisão de QA com IA](docs/ai-qa-review.md)
 - [Refinamento de comportamento](docs/behavior-refinement.md)
 - [Execução do pipeline de CI](docs/evidencias/ci.md)
+- [Execução real com Gemini](docs/evidencias/execucao-gemini.md)
 - evidências visuais finais serão armazenadas em `docs/evidencias/`.
 
 ## Observabilidade

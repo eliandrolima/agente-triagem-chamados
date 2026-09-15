@@ -52,13 +52,17 @@ class AnalisadorComLLM:
         if configuracao.llm_provider == "google":
             if not os.getenv("GOOGLE_API_KEY"):
                 raise ConfiguracaoLLMError("Configure GOOGLE_API_KEY no arquivo .env.")
-            modelo = ChatGoogleGenerativeAI(model=configuracao.llm_model, temperature=0)
+            modelo = ChatGoogleGenerativeAI(model=configuracao.llm_model)
+            self._modelo_estruturado = modelo.with_structured_output(
+                schema=AnaliseLLM.model_json_schema(), method="json_schema"
+            )
         else:
             if not os.getenv("OPENAI_API_KEY"):
                 raise ConfiguracaoLLMError("Configure OPENAI_API_KEY no arquivo .env.")
             modelo = ChatOpenAI(model=configuracao.llm_model, temperature=0)
-
-        self._modelo_estruturado = modelo.with_structured_output(AnaliseLLM)
+            self._modelo_estruturado = modelo.with_structured_output(
+                AnaliseLLM, method="json_schema"
+            )
 
     def analisar(self, chamado: ChamadoEntrada) -> AnaliseLLM:
         conteudo = (
