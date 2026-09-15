@@ -205,4 +205,4 @@ Isso permite reconstruir o caminho sem adicionar uma plataforma externa.
 
 ## Vídeo de demonstração
 
-Link do vídeo não listado no YouTube: **adicionar antes da entrega**.
+[Assista à apresentação do projeto no YouTube](https://youtu.be/Q_60WNEI_TM).

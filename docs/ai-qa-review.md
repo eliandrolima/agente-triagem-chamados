@@ -25,7 +25,7 @@ Adicionar testes independentes para:
 4. garantir que prompt injection encerra o grafo sem chamar o LLM;
 5. manter os testes sem dependência de rede ou chave externa.
 
-## Decisão adotada pelo aluno
+## Decisão adotada
 
 A sugestão foi aceita. Foi criado um `AnalisadorFalso` injetável e foram adicionados testes
 de API, grafo, validação, segurança e tool. A opção por um falso simples foi preferida a

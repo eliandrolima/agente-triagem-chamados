@@ -176,8 +176,8 @@ Clique em **Analisar chamado**.
 Execute:
 
 ```powershell
-pytest -q
-ruff check .
+
+
 ```
 
 **Fala sugerida:**
