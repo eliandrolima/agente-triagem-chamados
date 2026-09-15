@@ -180,6 +180,7 @@ coberto por testes e pode ser reproduzido pela interface.
 - [Refinamento de comportamento](docs/behavior-refinement.md)
 - [Execução do pipeline de CI](docs/evidencias/ci.md)
 - [Execução real com Gemini](docs/evidencias/execucao-gemini.md)
+- [Roteiro do vídeo de demonstração](docs/roteiro-video.md)
 - evidências visuais finais serão armazenadas em `docs/evidencias/`.
 
 ## Observabilidade
